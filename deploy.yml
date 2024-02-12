@@ -16,7 +16,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ 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 }}
 
   deploy_microservice_1:
     runs-on: ubuntu-latest
@@ -32,9 +31,6 @@ jobs:
         working-directory: microservice1
         if: contains(github.event.head_commit.message, '[deploy-microservice-1]')
         run: serverless deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ AKIA5GSTGNVUGVB5JV7Q }}
-          AWS_SECRET_ACCESS_KEY: ${{ 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 }}
 
   deploy_microservice_2:
     runs-on: ubuntu-latest
@@ -51,6 +47,4 @@ jobs:
         working-directory: microservice2
         if: contains(github.event.head_commit.message, '[deploy-microservice-2]')
         run: serverless deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ AKIA5GSTGNVUGVB5JV7Q }}
-          AWS_SECRET_ACCESS_KEY: ${{ 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 }}
+        
