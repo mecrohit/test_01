@@ -10,15 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14
-
-      - name: Install dependencies
-        run: npm ci
+        uses: actions/checkout@v2
 
       - name: SonarQube Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -31,7 +23,7 @@ jobs:
     needs: sonarqube_analysis
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Install Serverless Framework
         run: npm install -g serverless
@@ -41,7 +33,7 @@ jobs:
         if: contains(github.event.head_commit.message, '[deploy-microservice-1]')
         run: serverless deploy
         env:
-          AWS_ACCESS_KEY_ID: ${{AKIA5GSTGNVUGVB5JV7Q }}
+          AWS_ACCESS_KEY_ID: ${{ AKIA5GSTGNVUGVB5JV7Q }}
           AWS_SECRET_ACCESS_KEY: ${{ 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 }}
 
   deploy_microservice_2:
@@ -49,9 +41,10 @@ jobs:
     needs: sonarqube_analysis
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Install Serverless Framework
+
         run: npm install -g serverless
 
       - name: Deploy Microservice 2
