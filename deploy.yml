@@ -1,0 +1,56 @@
+name: Deploy Microservices to AWS Lambda with SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sonarqube_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy_microservice_1:
+    runs-on: ubuntu-latest
+    needs: sonarqube_analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Serverless Framework
+        run: npm install -g serverless
+
+      - name: Deploy Microservice 1
+        working-directory: microservice1
+        if: contains(github.event.head_commit.message, '[deploy-microservice-1]')
+        run: serverless deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  deploy_microservice_2:
+    runs-on: ubuntu-latest
+    needs: sonarqube_analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Serverless Framework
+
+        run: npm install -g serverless
+
+      - name: Deploy Microservice 2
+        working-directory: microservice2
+        if: contains(github.event.head_commit.message, '[deploy-microservice-2]')
+        run: serverless deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
