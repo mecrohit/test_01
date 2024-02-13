@@ -3,7 +3,7 @@ name: Deploy Microservices
 on:
   push:
     branches:
-      - dev-qa
+      - main
 
 jobs:
   check_and_execute:
