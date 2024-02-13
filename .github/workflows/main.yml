@@ -24,7 +24,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ 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 }}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
   deploy_microservice_1:
     runs-on: ubuntu-latest
